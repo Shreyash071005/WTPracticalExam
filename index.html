@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Hub Tutotail</title>
+    <style>
+        tr,td{
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fill the Form to Store data in localStorage</h1>
+    <form>
+        <table>
+           <tr>
+            <td><label for="rollNo">Enter Roll No</label></td>
+            <td><input type="number" id="rollNo" required></td>
+           </tr> 
+           <tr>
+            <td><label for="name">Enter Name</label></td>
+            <td><input type="text" id="name" required></td>
+           </tr> 
+           <tr>
+            <td><label for="mobile">Enter Mobile No</label></td>
+            <td><input type="text" id="mobile" required></td>
+           </tr> 
+          <tr>
+            <td><label for="email">Enter Email Id</label></td>
+            <td><input type="text" id="email" required></td>
+           </tr> 
+        </table>
+        <button id="submitButton" type="button">Submit</button>
+    </form>
+
+    <h2>Stored Student Info</h2>
+    <table id="displayTable">
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+
+    <script>
+        let submitButton = document.getElementById('submitButton');
+
+        function displaystud(){
+            let parsedStudentInfo = JSON.parse(localStorage.getItem('studentinfo'));
+            let tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = "";
+
+            if(parsedStudentInfo != null){
+                parsedStudentInfo.forEach(function(stud){
+                    let row = `<tr>
+                        <td>${stud.rollno}</td>
+                        <td>${stud.name}</td>
+                        <td>${stud.mobile}</td>
+                        <td>${stud.email}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            }
+        }
+
+        submitButton.onclick = function(){
+            let rollno = document.getElementById('rollNo').value;
+            let name = document.getElementById('name').value;
+            let mobile = document.getElementById('mobile').value;
+            let email = document.getElementById('email').value;
+
+            let studentInfo = {
+                rollno : rollno,
+                name : name,
+                mobile : mobile,
+                email : email
+            }
+
+            let storedstudinfo = JSON.parse(localStorage.getItem('studentinfo'));
+            if(storedstudinfo == null){
+                storedstudinfo = [];
+            }
+
+            storedstudinfo.push(studentInfo);
+            localStorage.setItem('studentinfo', JSON.stringify(storedstudinfo));
+
+            displaystud();
+
+            document.getElementById('rollNo').value = "";
+            document.getElementById('name').value = "";
+            document.getElementById('mobile').value = "";
+            document.getElementById('email').value = "";
+        };
+
+        window.onload = displaystud;
+    </script>
+</body>
+</html>
