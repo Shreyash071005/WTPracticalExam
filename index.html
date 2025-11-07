@@ -83,10 +83,7 @@
             }
 
             let storedstudinfo = JSON.parse(localStorage.getItem('studentinfo'));
-            if(storedstudinfo == null){
-                storedstudinfo = [];
-            }
-
+            
             storedstudinfo.push(studentInfo);
             localStorage.setItem('studentinfo', JSON.stringify(storedstudinfo));
 
